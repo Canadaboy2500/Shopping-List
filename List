@@ -1,0 +1,86 @@
+#---------------------------------------------------------------
+#----------------Shopping List----------------------------------
+#----------------Mason Skinner----------------------------------
+#---------------Febuary 7. 2022---------------------------------
+#---------------------------------------------------------------
+
+def add_item(items, prices, quantity):#adds items too list
+    loop = True
+    while loop == True:
+        print("What do you want too add too your list?")
+        item_name = input('> ').lower()
+        numbers_found = False
+        while numbers_found == False:
+            try:
+                print(f"How much do {item_name} cost?")
+                item_price = round(float(input('> ')),2)
+                price_found = isinstance(item_price, (float))
+                print(f"How many {item_name} do you want?")
+                item_quantity = int(input('> '))
+                numbers_found = True
+            except ValueError:
+                print("Please enter numbers.")
+        items.append(item_name)
+        quantity[item_name] = item_quantity
+        prices[item_name] = item_price
+        print("Do you want too add anything else?")
+        restart = input('> ').lower()
+        if restart == 'yes' or restart == 'y':
+            loop = True
+        else:
+            loop = False
+    return items, prices, quantity
+
+def delete_item(items, prices, quantity):#removes items from list
+    loop = True
+    while loop == True:
+        print("These are the items in your list.")
+        for i in items:
+            print(i)
+        print("\n What item would you like too remove?")
+        remove = input('> ').lower()
+        if remove in items:
+            items.remove(remove)
+            del prices[remove]
+            del quantity[remove]
+        else:
+            print("Sorry that item could not be found.")
+        print("would you like too delete anything else?")
+        restart = input('> ').lower()
+        if restart == 'yes' or restart == 'y':
+            loop = True
+        else:
+            loop = False
+    return items, prices, quantity
+
+def view_list():#prints the list our nicely with quantities and prices and total
+    print("Here is your list:")
+    total = 0
+    for i in items:
+        print(f"{quantity[i]} {i} at ${prices[i]} each")
+        total = total + (prices[i] * quantity[i])
+    print(f"Total cost:${round(total,2)}")
+    print("Press any button to return to main menu")
+    item = input('> ')
+
+#-----Variables----------------------------------------------
+items = []
+prices = {}
+quantity = {}
+#-------------------------------------------------------------
+run = True
+while run == True:
+    print("What would you like too do?")
+    print("1) Add Items\n2) Remove Items\n3) View List\n4) Exit")
+    choice = (input('> '))
+    if choice == '1':
+        add_item(items, prices, quantity)
+    elif choice == '2':
+        delete_item(items, prices, quantity)
+    elif choice == '3':
+        view_list()
+    elif choice == '4':
+        print("Bye!")
+        run = False
+    else:
+        print('Please try again.')
